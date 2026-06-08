@@ -1,0 +1,899 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bolão Cyrela — Copa 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --green:#0a5c36;--green-mid:#0d7a48;--green-light:#e8f5ee;
+  --gold:#b8860b;--gold-light:#fffbea;--gold-bd:#d4a820;
+  --bg:#f4f6f3;--card:#fff;--bd:#d4d9d2;
+  --text:#1a1f1a;--muted:#5a6b5a;
+  --danger:#b03030;--danger-bg:#fdf0ef;
+  --info:#1a5296;--info-bg:#eaf1fb;
+}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+.site-header{background:var(--green);position:sticky;top:0;z-index:100}
+.hinner{max-width:940px;margin:0 auto;padding:11px 18px;display:flex;align-items:center;justify-content:space-between}
+.logo{font-family:'Bebas Neue',sans-serif;font-size:23px;color:#fff;letter-spacing:2px}
+.logo span{color:#f0c040}
+.hright{display:flex;align-items:center;gap:8px}
+.av{width:29px;height:29px;border-radius:50%;background:#f0c040;color:var(--green);font-weight:700;font-size:12px;display:flex;align-items:center;justify-content:center}
+.bsm{background:rgba(255,255,255,.16);border:none;color:#fff;padding:4px 10px;border-radius:6px;cursor:pointer;font-size:12px;font-family:'DM Sans',sans-serif}
+.bsm:hover{background:rgba(255,255,255,.28)}
+.page{display:none;min-height:calc(100vh - 51px)}
+.page.active{display:block}
+#pauth{display:none;align-items:center;justify-content:center;min-height:100vh;background:var(--green)}
+#pauth.active{display:flex}
+.abox{background:#fff;border-radius:16px;padding:34px 30px;width:100%;max-width:380px}
+.alogo{font-family:'Bebas Neue',sans-serif;font-size:32px;color:var(--green);letter-spacing:3px;text-align:center;margin-bottom:2px}
+.alogo span{color:var(--gold)}
+.asub{text-align:center;color:var(--muted);font-size:13px;margin-bottom:22px}
+.atabs{display:flex;border-radius:8px;overflow:hidden;border:1px solid var(--bd);margin-bottom:18px}
+.atab{flex:1;padding:9px;text-align:center;font-size:13px;font-weight:500;cursor:pointer;background:#f8f9f8;color:var(--muted);border:none;font-family:'DM Sans',sans-serif}
+.atab.active{background:var(--green);color:#fff}
+.fg{margin-bottom:13px}
+.fg label{display:block;font-size:12px;font-weight:500;color:var(--muted);margin-bottom:5px}
+.fg input{width:100%;padding:9px 11px;border:1px solid var(--bd);border-radius:7px;font-size:13px;font-family:'DM Sans',sans-serif;background:#fafafa;outline:none}
+.fg input:focus{border-color:var(--green);background:#fff}
+.bpri{width:100%;background:var(--green);color:#fff;border:none;padding:11px;border-radius:8px;font-size:14px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif}
+.bpri:hover{background:var(--green-mid)}
+.bpri:disabled{opacity:.6;cursor:not-allowed}
+.aerr{background:var(--danger-bg);color:var(--danger);border-radius:7px;padding:9px 11px;font-size:12px;margin-bottom:12px;display:none}
+.aerr.show{display:block}
+.mc{max-width:940px;margin:0 auto;padding:18px 16px}
+.ntabs{display:flex;gap:3px;margin-bottom:18px;background:#e8ede7;border-radius:10px;padding:4px}
+.ntab{flex:1;padding:8px;text-align:center;border-radius:7px;cursor:pointer;font-size:12px;font-weight:500;color:var(--muted);border:none;background:none;font-family:'DM Sans',sans-serif}
+.ntab.active{background:#fff;color:var(--green);font-weight:600}
+.tc{display:none}.tc.active{display:block}
+.banner{background:var(--green);border-radius:12px;padding:18px 22px;color:#fff;margin-bottom:18px}
+.banner h2{font-family:'Bebas Neue',sans-serif;font-size:24px;letter-spacing:1px;margin-bottom:2px}
+.banner p{font-size:12px;opacity:.85}
+.dchip{display:inline-flex;align-items:center;gap:5px;background:rgba(255,255,255,.18);border-radius:20px;padding:4px 11px;font-size:11px;margin-top:7px}
+.stitle{font-family:'Bebas Neue',sans-serif;font-size:19px;letter-spacing:1px;color:var(--green);margin-bottom:12px}
+.plabel{font-size:11px;color:var(--muted);margin-bottom:3px}
+.pbar{height:5px;background:#e0e8de;border-radius:3px;margin-bottom:18px;overflow:hidden}
+.pfill{height:100%;background:var(--green);border-radius:3px;transition:width .4s}
+.ggrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(185px,1fr));gap:11px;margin-bottom:24px}
+.gc{background:var(--card);border:1px solid var(--bd);border-radius:11px;padding:13px;cursor:pointer;transition:border .15s}
+.gc:hover{border-color:var(--green)}
+.gc.done{border-color:var(--gold-bd);background:var(--gold-light)}
+.glabel{font-family:'Bebas Neue',sans-serif;font-size:17px;color:var(--green);margin-bottom:5px;letter-spacing:1px}
+.gc.done .glabel{color:var(--gold)}
+.gteams{font-size:11px;color:var(--muted);line-height:1.75}
+.gprev{font-size:11px;margin-top:6px;font-weight:500}
+.p1c{color:var(--green)}.p2c{color:var(--gold)}.nop{color:var(--muted);font-style:italic}
+.bdone{display:inline-block;background:#e5f2ea;color:#0a5c36;font-size:10px;font-weight:700;padding:2px 8px;border-radius:20px;margin-top:4px}
+/* MODAL */
+.mov{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:200;display:none;align-items:flex-start;justify-content:center;padding:16px;overflow-y:auto}
+.mov.open{display:flex}
+.mbox{background:#fff;border-radius:14px;padding:22px;width:100%;max-width:430px;margin-top:52px}
+.mhdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+.mhdr h3{font-family:'Bebas Neue',sans-serif;font-size:19px;color:var(--green);letter-spacing:1px}
+.bcls{background:none;border:none;font-size:17px;cursor:pointer;color:var(--muted)}
+.phint{font-size:11px;color:var(--muted);margin-bottom:10px}
+.pleg{display:flex;gap:12px;font-size:11px;color:var(--muted);margin-bottom:10px}
+.ldot{width:8px;height:8px;border-radius:50%;display:inline-block;margin-right:3px}
+.tlist{display:flex;flex-direction:column;gap:6px;margin-bottom:14px}
+.topt{display:flex;align-items:center;gap:9px;padding:9px 11px;border:1.5px solid var(--bd);border-radius:9px;cursor:pointer;user-select:none;transition:border .12s,background .12s}
+.topt:hover{border-color:#aac9b8}
+.topt.p1{border-color:var(--green);background:var(--green-light)}
+.topt.p2{border-color:var(--gold-bd);background:var(--gold-light)}
+.topt.rdonly{cursor:default}
+.tf{font-size:19px;width:24px;text-align:center}
+.tn{font-size:13px;font-weight:500;flex:1}
+.pb{font-size:10px;font-weight:700;padding:2px 7px;border-radius:12px}
+.b1{background:var(--green);color:#fff}.b2{background:var(--gold);color:#fff}
+.bsv{background:var(--green);color:#fff;border:none;padding:10px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif;width:100%}
+.bsv:hover{background:var(--green-mid)}
+.mhint{font-size:11px;color:var(--muted);text-align:center;margin-top:7px}
+/* palpites dos outros */
+.oth-sec{margin-top:16px;border-top:1px solid var(--bd);padding-top:14px}
+.oth-ttl{font-size:12px;font-weight:700;color:var(--muted);margin-bottom:10px;text-transform:uppercase;letter-spacing:.4px}
+.ocard{background:#f8faf7;border:1px solid #e4ebe2;border-radius:9px;padding:10px 12px;margin-bottom:8px}
+.ocard:last-child{margin-bottom:0}
+.ocard-hdr{display:flex;align-items:center;gap:8px;margin-bottom:8px}
+.oav{width:24px;height:24px;border-radius:50%;color:#fff;font-weight:700;font-size:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.oname{font-size:13px;font-weight:600;flex:1}
+.opicks-grid{display:flex;flex-direction:column;gap:5px}
+.opick-row{display:flex;align-items:center;gap:8px;font-size:12px}
+.opick-pos{font-weight:700;font-size:10px;padding:2px 7px;border-radius:10px;flex-shrink:0}
+.pos1{background:var(--green);color:#fff}
+.pos2{background:var(--gold);color:#fff}
+.opick-team{font-weight:500;color:var(--text)}
+.opick-flag{font-size:15px}
+.lnotice{background:var(--info-bg);color:var(--info);border-radius:8px;padding:9px 11px;font-size:11px;display:flex;align-items:center;gap:7px}
+/* RANKING */
+.rcard{background:var(--card);border:1px solid var(--bd);border-radius:12px;overflow:hidden}
+.rrow{display:flex;align-items:center;padding:10px 13px;border-bottom:1px solid #f0f2ef;gap:9px}
+.rrow:last-child{border-bottom:none}
+.rnum{font-family:'Bebas Neue',sans-serif;font-size:17px;width:22px;text-align:center;color:var(--muted)}
+.rnum.gn{color:#b8860b}.rnum.sn{color:#888}.rnum.bn{color:#a0694a}
+.rav{width:30px;height:30px;border-radius:50%;color:#fff;font-weight:700;font-size:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.rname{flex:1;font-size:13px;font-weight:500}
+.rscore{font-family:'Bebas Neue',sans-serif;font-size:21px;color:var(--green)}
+.spip{background:#e8f5ee;color:#0a5c36;padding:1px 6px;border-radius:10px;font-weight:600;font-size:10px}
+.spip.gd{background:#fffbea;color:#7a5500}
+/* ADMIN */
+.adm-sec{background:var(--card);border:1px solid var(--bd);border-radius:12px;padding:14px;margin-bottom:14px}
+.adm-ttl{font-size:13px;font-weight:600;margin-bottom:10px}
+.adm-hint{font-size:11px;color:var(--muted);margin-bottom:10px}
+.gres-row{display:flex;align-items:center;gap:7px;padding:7px 0;border-bottom:1px solid #f0f2ef;font-size:12px;flex-wrap:wrap}
+.gres-row:last-child{border-bottom:none}
+.gid-lbl{font-family:'Bebas Neue',sans-serif;font-size:15px;color:var(--green);width:20px;flex-shrink:0}
+select{padding:5px 7px;border:1px solid var(--bd);border-radius:6px;font-size:11px;font-family:'DM Sans',sans-serif;background:#fafafa;color:var(--text);cursor:pointer}
+.badm{background:var(--green);color:#fff;border:none;padding:7px 14px;border-radius:7px;font-size:12px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif}
+.badm:hover{background:var(--green-mid)}
+.bdng{background:var(--danger-bg);color:var(--danger);border:1px solid #f0b0b0;border-radius:7px;padding:5px 9px;font-size:11px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif}
+.phase-badge{display:inline-block;padding:3px 9px;border-radius:20px;font-size:10px;font-weight:700;margin-left:6px}
+.ph-g{background:#e5f2ea;color:#0a5c36}.ph-m{background:#eaf1fb;color:#1a5296}
+/* MATA-MATA */
+.kolist{display:flex;flex-direction:column;gap:9px;margin-bottom:22px}
+.kocard{background:var(--card);border:1px solid var(--bd);border-radius:11px;padding:13px 15px;transition:border .15s}
+.kocard.clickable{cursor:pointer}
+.kocard.clickable:hover{border-color:var(--green)}
+.kocard.picked{border-color:var(--green);background:var(--green-light)}
+.kocard.lkd{background:#fafafa}
+.kolbl{font-size:10px;color:var(--muted);font-weight:600;margin-bottom:7px;text-transform:uppercase;letter-spacing:.4px}
+.koteams{display:flex;align-items:center;gap:7px}
+.kotem{flex:1;display:flex;align-items:center;gap:7px;padding:8px 9px;border:1.5px solid var(--bd);border-radius:8px;font-size:12px;font-weight:500;transition:all .12s}
+.kotem.clickable{cursor:pointer}
+.kotem.clickable:hover{border-color:var(--green-mid)}
+.kotem.sel{border-color:var(--green);background:var(--green-light)}
+.kovs{font-weight:700;font-size:11px;color:var(--muted);flex-shrink:0}
+.kodl{font-size:10px;color:var(--muted);margin-top:7px}
+.kost{font-size:11px;margin-top:6px;font-weight:600}
+.kok{color:#0a5c36}.kow{color:var(--danger)}.kop{color:var(--muted)}
+.empty-s{text-align:center;padding:30px;color:var(--muted);font-size:13px}
+.ibox{background:var(--info-bg);color:var(--info);border-radius:8px;padding:9px 12px;font-size:11px;margin-bottom:14px}
+.rules{background:#f8faf7;border:1px solid var(--bd);border-radius:10px;padding:12px 14px;margin-bottom:16px}
+.rules h4{font-size:12px;font-weight:600;margin-bottom:7px}
+.rrul{display:flex;align-items:center;gap:9px;padding:5px 0;border-bottom:1px solid #eef0ec;font-size:11px}
+.rrul:last-child{border-bottom:none}
+.ptsbdg{background:var(--green);color:#fff;border-radius:10px;padding:2px 7px;font-weight:700;font-size:10px;min-width:30px;text-align:center;flex-shrink:0}
+.sync-btn{display:flex;align-items:center;gap:8px;background:var(--green);color:#fff;border:none;padding:9px 16px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif;margin-bottom:10px}
+.sync-btn:hover{background:var(--green-mid)}
+.sync-btn:disabled{opacity:.6;cursor:not-allowed}
+.sync-log{font-size:11px;color:var(--muted);background:#f4f6f3;border-radius:7px;padding:9px 12px;min-height:36px;white-space:pre-line;font-family:'DM Sans',sans-serif}
+.sync-log.ok{color:#0a5c36;background:var(--green-light)}
+.sync-log.err{color:var(--danger);background:var(--danger-bg)}
+.loading{text-align:center;padding:40px;color:var(--muted);font-size:13px}
+.spinner{display:inline-block;width:16px;height:16px;border:2px solid #d0d8cf;border-top-color:var(--green);border-radius:50%;animation:spin .7s linear infinite;margin-right:8px;vertical-align:middle}
+@keyframes spin{to{transform:rotate(360deg)}}
+</style>
+</head>
+<body>
+
+<!-- AUTH -->
+<div id="pauth" class="page active" style="display:none">
+  <div class="abox">
+    <div class="alogo">Bolão <span>Cyrela</span></div>
+    <div class="asub">Copa do Mundo 2026 🏆</div>
+    <div class="atabs">
+      <button class="atab active" onclick="satab('login')">Entrar</button>
+      <button class="atab" onclick="satab('register')">Criar conta</button>
+    </div>
+    <div id="aerr" class="aerr"></div>
+    <div id="flog">
+      <div class="fg"><label>Usuário</label><input id="lu" placeholder="seu.usuario" autocomplete="username"/></div>
+      <div class="fg"><label>Senha</label><input type="password" id="lp" placeholder="••••••••" autocomplete="current-password"/></div>
+      <button class="bpri" id="btn-login" onclick="dolog()">Entrar</button>
+    </div>
+    <div id="freg" style="display:none">
+      <div class="fg"><label>Nome completo</label><input id="rn" placeholder="Ex: João Silva"/></div>
+      <div class="fg"><label>Usuário (sem espaços)</label><input id="ru" placeholder="Ex: joaosilva"/></div>
+      <div class="fg"><label>Senha</label><input type="password" id="rp" placeholder="Mín. 4 caracteres"/></div>
+      <div class="fg"><label>Confirmar senha</label><input type="password" id="rp2" placeholder="Repita a senha"/></div>
+      <button class="bpri" id="btn-reg" onclick="doreg()">Criar conta</button>
+    </div>
+  </div>
+</div>
+
+<!-- APP -->
+<div id="pmain" class="page">
+  <div class="site-header">
+    <div class="hinner">
+      <div class="logo">Bolão <span>Cyrela</span></div>
+      <div class="hright">
+        <div class="av" id="hav"></div>
+        <span id="hnm" style="color:#fff;font-size:12px;font-weight:500"></span>
+        <button class="bsm" id="btnadm" style="display:none" onclick="snav('admin')">⚙ Admin</button>
+        <button class="bsm" onclick="dolout()">Sair</button>
+      </div>
+    </div>
+  </div>
+  <div class="mc">
+    <div class="ntabs">
+      <button class="ntab active"  onclick="snav('apostas')">Apostas</button>
+      <button class="ntab"         onclick="snav('ranking')">Ranking</button>
+      <button class="ntab" id="tbmm"  style="display:none" onclick="snav('mata')">Mata-mata</button>
+      <button class="ntab" id="tbadm" style="display:none" onclick="snav('admin')">Admin</button>
+    </div>
+    <div id="t-apostas" class="tc active"></div>
+    <div id="t-ranking"  class="tc"></div>
+    <div id="t-mata"     class="tc"></div>
+    <div id="t-admin"    class="tc"></div>
+  </div>
+  <div class="mov" id="mov" onclick="cmout(event)">
+    <div class="mbox" id="mbox"></div>
+  </div>
+</div>
+
+<!-- FIREBASE SDK -->
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+
+<script>
+// ══════════════════════════════════════════════════════
+//  ▼▼▼  COLE AQUI SUA CONFIGURAÇÃO DO FIREBASE  ▼▼▼
+// ══════════════════════════════════════════════════════
+const firebaseConfig = {
+  apiKey:            "AIza...",
+  authDomain:        "bolao-cyrela.firebaseapp.com",
+  databaseURL:       "https://bolao-cyrela-default-rtdb.firebaseio.com",
+  projectId:         "bolao-cyrela",
+  storageBucket:     "bolao-cyrela.appspot.com",
+  messagingSenderId: "123456789",
+  appId:             "1:123..."
+};
+// ══════════════════════════════════════════════════════
+
+firebase.initializeApp(firebaseConfig);
+const db = firebase.database();
+
+function dbGet(path)        { return db.ref(path).get().then(s => s.exists() ? s.val() : null); }
+function dbSet(path, v)     { return db.ref(path).set(v); }
+function dbPush(path, v)    { return db.ref(path).push(v); }
+function dbRemove(path)     { return db.ref(path).remove(); }
+function dbOn(path, cb)     { db.ref(path).on('value', s => cb(s.exists() ? s.val() : null)); return () => db.ref(path).off(); }
+
+// ══════════════════════════════════════════════════════
+//  CONFIGURAÇÕES
+// ══════════════════════════════════════════════════════
+const ADMIN_USER = 'admin';
+const DATA_URL   = 'https://raw.githubusercontent.com/openfootball/worldcup.json/master/2026/worldcup.json';
+const FIRST_GAME = new Date('2026-06-11T15:30:00-03:00');
+const DEADLINE_G = new Date(FIRST_GAME.getTime() - 30 * 60 * 1000);
+
+// ══════════════════════════════════════════════════════
+//  GRUPOS REAIS DA COPA 2026
+// ══════════════════════════════════════════════════════
+const GROUPS = [
+  {id:'A', teams:[{f:'🇲🇽',n:'México'},       {f:'🇿🇦',n:'África do Sul'},   {f:'🇰🇷',n:'Coreia do Sul'},   {f:'🇨🇿',n:'República Tcheca'}]},
+  {id:'B', teams:[{f:'🇨🇦',n:'Canadá'},        {f:'🇧🇦',n:'Bósnia'},           {f:'🇶🇦',n:'Qatar'},            {f:'🇨🇭',n:'Suíça'}]},
+  {id:'C', teams:[{f:'🇧🇷',n:'Brasil'},         {f:'🇲🇦',n:'Marrocos'},         {f:'🇭🇹',n:'Haiti'},            {f:'🏴󠁧󠁢󠁳󠁣󠁴󠁿',n:'Escócia'}]},
+  {id:'D', teams:[{f:'🇺🇸',n:'EUA'},            {f:'🇵🇾',n:'Paraguai'},         {f:'🇦🇺',n:'Austrália'},        {f:'🇹🇷',n:'Turquia'}]},
+  {id:'E', teams:[{f:'🇩🇪',n:'Alemanha'},       {f:'🇨🇼',n:'Curaçao'},          {f:'🇨🇮',n:'Costa do Marfim'}, {f:'🇪🇨',n:'Equador'}]},
+  {id:'F', teams:[{f:'🇳🇱',n:'Holanda'},        {f:'🇯🇵',n:'Japão'},            {f:'🇸🇪',n:'Suécia'},           {f:'🇹🇳',n:'Tunísia'}]},
+  {id:'G', teams:[{f:'🇧🇪',n:'Bélgica'},        {f:'🇪🇬',n:'Egito'},            {f:'🇮🇷',n:'Irã'},              {f:'🇳🇿',n:'Nova Zelândia'}]},
+  {id:'H', teams:[{f:'🇪🇸',n:'Espanha'},        {f:'🇨🇻',n:'Cabo Verde'},       {f:'🇸🇦',n:'Arábia Saudita'},  {f:'🇺🇾',n:'Uruguai'}]},
+  {id:'I', teams:[{f:'🇫🇷',n:'França'},         {f:'🇸🇳',n:'Senegal'},          {f:'🇮🇶',n:'Iraque'},           {f:'🇳🇴',n:'Noruega'}]},
+  {id:'J', teams:[{f:'🇦🇷',n:'Argentina'},      {f:'🇩🇿',n:'Argélia'},          {f:'🇦🇹',n:'Áustria'},          {f:'🇯🇴',n:'Jordânia'}]},
+  {id:'K', teams:[{f:'🇵🇹',n:'Portugal'},       {f:'🇨🇩',n:'RD Congo'},         {f:'🇺🇿',n:'Uzbequistão'},      {f:'🇨🇴',n:'Colômbia'}]},
+  {id:'L', teams:[{f:'🏴󠁧󠁢󠁥󠁮󠁧󠁿',n:'Inglaterra'}, {f:'🇭🇷',n:'Croácia'},          {f:'🇬🇭',n:'Gana'},             {f:'🇵🇦',n:'Panamá'}]}
+];
+
+// ══════════════════════════════════════════════════════
+//  ESTADO
+// ══════════════════════════════════════════════════════
+let CU = null, CN = null, UP = {}, UKO = {};
+let MGID = null, TP = {};
+let unsubRanking = null;
+
+// ══════════════════════════════════════════════════════
+//  UTILITÁRIOS
+// ══════════════════════════════════════════════════════
+function isLocked() { return new Date() >= DEADLINE_G; }
+function dlstr() {
+  return DEADLINE_G.toLocaleString('pt-BR',{day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'});
+}
+function avc(u) {
+  const c=['#0a5c36','#b8860b','#1a5276','#7d3c98','#1e8449','#a93226','#0e6655','#784212'];
+  let h=0; for(let ch of u) h=(h*31+ch.charCodeAt(0))%c.length; return c[h];
+}
+function spin() { return '<span class="spinner"></span>'; }
+function loading(msg='Carregando...') { return `<div class="loading">${spin()}${msg}</div>`; }
+function flagOf(name) {
+  const g = GROUPS.find(gr => gr.teams.some(t => t.n === name));
+  if (!g) return '';
+  const t = g.teams.find(t => t.n === name);
+  return t ? t.f : '';
+}
+
+// ══════════════════════════════════════════════════════
+//  AUTH
+// ══════════════════════════════════════════════════════
+function satab(t) {
+  document.querySelectorAll('.atab').forEach((b,i) =>
+    b.classList.toggle('active',(t==='login'&&i===0)||(t==='register'&&i===1)));
+  document.getElementById('flog').style.display  = t==='login'    ? '' : 'none';
+  document.getElementById('freg').style.display  = t==='register' ? '' : 'none';
+  serr('');
+}
+function serr(m) {
+  const e = document.getElementById('aerr');
+  e.textContent = m; e.classList.toggle('show', !!m);
+}
+async function dolog() {
+  const u = document.getElementById('lu').value.trim().toLowerCase();
+  const p = document.getElementById('lp').value;
+  if (!u||!p) { serr('Preencha usuário e senha.'); return; }
+  const btn = document.getElementById('btn-login');
+  btn.disabled=true; btn.textContent='Entrando...';
+  try {
+    const users = await dbGet('users');
+    if (!users||!users[u])       { serr('Usuário não encontrado.'); return; }
+    if (users[u].pass !== btoa(p)){ serr('Senha incorreta.');        return; }
+    await startSession(u, users[u].name);
+  } catch(e) { serr('Erro de conexão. Verifique o Firebase.'); console.error(e); }
+  finally    { btn.disabled=false; btn.textContent='Entrar'; }
+}
+async function doreg() {
+  const name = document.getElementById('rn').value.trim();
+  const u    = document.getElementById('ru').value.trim().toLowerCase().replace(/\s+/g,'');
+  const p    = document.getElementById('rp').value;
+  const p2   = document.getElementById('rp2').value;
+  if (!name||!u||!p||!p2)         { serr('Preencha todos os campos.'); return; }
+  if (p.length < 4)                { serr('Mínimo 4 caracteres na senha.'); return; }
+  if (p !== p2)                    { serr('Senhas não coincidem.'); return; }
+  if (!/^[a-z0-9_.]+$/.test(u))   { serr('Usuário: letras, números, ponto ou underscore.'); return; }
+  const btn = document.getElementById('btn-reg');
+  btn.disabled=true; btn.textContent='Criando...';
+  try {
+    const users = await dbGet('users') || {};
+    if (users[u]) { serr('Usuário já existe.'); return; }
+    users[u] = { name, pass: btoa(p), createdAt: Date.now() };
+    await dbSet('users', users);
+    await startSession(u, name);
+  } catch(e) { serr('Erro ao criar conta. Verifique o Firebase.'); console.error(e); }
+  finally    { btn.disabled=false; btn.textContent='Criar conta'; }
+}
+async function startSession(u, name) {
+  CU=u; CN=name;
+  UP  = await dbGet('picks/'+u)    || {};
+  UKO = await dbGet('ko_picks/'+u) || {};
+  document.getElementById('pauth').style.display = 'none';
+  document.getElementById('pmain').classList.add('active');
+  document.getElementById('hav').textContent = name.charAt(0).toUpperCase();
+  document.getElementById('hnm').textContent  = name.split(' ')[0];
+  if (u === ADMIN_USER) {
+    document.getElementById('btnadm').style.display = '';
+    document.getElementById('tbadm').style.display  = '';
+  }
+  const phase = await dbGet('config/phase') || 'grupos';
+  if (phase !== 'grupos') document.getElementById('tbmm').style.display = '';
+  rApostas();
+}
+function dolout() {
+  if (unsubRanking) { unsubRanking(); unsubRanking=null; }
+  CU=null; CN=null; UP={}; UKO={};
+  document.getElementById('pmain').classList.remove('active');
+  document.getElementById('pauth').style.display = 'flex';
+  document.getElementById('lu').value = '';
+  document.getElementById('lp').value = '';
+}
+
+// ══════════════════════════════════════════════════════
+//  NAVEGAÇÃO
+// ══════════════════════════════════════════════════════
+function snav(t) {
+  const ids = ['apostas','ranking','mata','admin'];
+  document.querySelectorAll('.ntab').forEach((b,i) => b.classList.toggle('active', ids[i]===t));
+  document.querySelectorAll('.tc').forEach(c => c.classList.remove('active'));
+  const el = document.getElementById('t-'+t);
+  if (el) el.classList.add('active');
+  if (t==='ranking') rRanking();
+  if (t==='mata')    rMata();
+  if (t==='admin')   rAdmin();
+}
+
+// ══════════════════════════════════════════════════════
+//  APOSTAS — FASE DE GRUPOS
+// ══════════════════════════════════════════════════════
+function rApostas() {
+  const lk   = isLocked();
+  const done = Object.keys(UP).length;
+  const pct  = Math.round(done/12*100);
+  let h = `
+    <div class="banner">
+      <h2>Olá, ${CN.split(' ')[0]}! ⚽</h2>
+      <p>Aposte no 1º e 2º colocado de cada grupo.</p>
+      ${lk ? `<div class="dchip">🔒 Apostas encerradas</div>`
+           : `<div class="dchip">⏰ Prazo: ${dlstr()}</div>`}
+    </div>
+    <div class="rules">
+      <h4>Pontuação — fase de grupos</h4>
+      <div class="rrul"><span class="ptsbdg">2 pts</span> Acertou a posição exata (1º ou 2º)</div>
+      <div class="rrul"><span class="ptsbdg">1 pt</span>  Acertou a classificação, mas errou a posição</div>
+    </div>
+    <div class="plabel">${done} de 12 grupos apostados</div>
+    <div class="pbar"><div class="pfill" style="width:${pct}%"></div></div>
+    <div class="stitle">Fase de Grupos</div>
+    <div class="ggrid">`;
+  GROUPS.forEach(g => {
+    const p  = UP[g.id];
+    const ok = p && p.first && p.second;
+    h += `<div class="gc${ok?' done':''}" onclick="openM('${g.id}')">
+      <div class="glabel">Grupo ${g.id}</div>
+      <div class="gteams">${g.teams.map(t=>`${t.f} ${t.n}`).join('<br>')}</div>
+      ${ok ? `<div class="gprev"><div class="p1c">🥇 ${p.first}</div><div class="p2c">🥈 ${p.second}</div></div><div class="bdone">✓ Apostado</div>`
+           : `<div class="gprev"><span class="nop">${lk?'Não apostado':'Clique para apostar'}</span></div>`}
+    </div>`;
+  });
+  h += '</div>';
+  document.getElementById('t-apostas').innerHTML = h;
+}
+
+// ── Abre modal de grupo ──
+async function openM(gid) {
+  const lk     = isLocked();
+  const g      = GROUPS.find(x => x.id === gid);
+  const ex     = UP[gid] || {};
+  const meDone = !!(ex.first && ex.second);
+  TP   = { first: ex.first||null, second: ex.second||null };
+  MGID = gid;
+
+  // Mostra modal com spinner enquanto carrega
+  document.getElementById('mbox').innerHTML =
+    `<div class="mhdr"><h3>Grupo ${g.id}</h3><button class="bcls" onclick="cm()">✕</button></div>${loading()}`;
+  document.getElementById('mov').classList.add('open');
+
+  // Monta seção dos palpites dos outros
+  // Regra: só aparece se o usuário JÁ apostou neste grupo
+  let othH = '';
+  if (meDone) {
+    // Busca todos os palpites do Firebase
+    const [allPicks, users] = await Promise.all([
+      dbGet('picks'),
+      dbGet('users')
+    ]);
+    const others = [];
+    if (allPicks) {
+      Object.keys(allPicks).forEach(un => {
+        if (un === CU) return; // pula o próprio usuário
+        const p = (allPicks[un] || {})[gid];
+        if (p && p.first && p.second) {
+          others.push({
+            username: un,
+            name: users?.[un]?.name || un,
+            first: p.first,
+            second: p.second
+          });
+        }
+      });
+    }
+    // Ordena por nome
+    others.sort((a,b) => a.name.localeCompare(b.name));
+
+    othH = `<div class="oth-sec">
+      <div class="oth-ttl">👥 Palpites dos participantes (${others.length + 1} apostas)</div>`;
+
+    // Primeiro mostra o palpite do próprio usuário em destaque
+    othH += `<div class="ocard" style="border-color:var(--green);background:var(--green-light)">
+      <div class="ocard-hdr">
+        <div class="oav" style="background:${avc(CU)}">${CN.charAt(0).toUpperCase()}</div>
+        <span class="oname">${CN} <span style="font-size:10px;color:var(--green);font-weight:600">(você)</span></span>
+      </div>
+      <div class="opicks-grid">
+        <div class="opick-row">
+          <span class="opick-pos pos1">1º</span>
+          <span class="opick-flag">${flagOf(ex.first)}</span>
+          <span class="opick-team">${ex.first}</span>
+        </div>
+        <div class="opick-row">
+          <span class="opick-pos pos2">2º</span>
+          <span class="opick-flag">${flagOf(ex.second)}</span>
+          <span class="opick-team">${ex.second}</span>
+        </div>
+      </div>
+    </div>`;
+
+    if (others.length > 0) {
+      others.forEach(o => {
+        othH += `<div class="ocard">
+          <div class="ocard-hdr">
+            <div class="oav" style="background:${avc(o.username)}">${o.name.charAt(0).toUpperCase()}</div>
+            <span class="oname">${o.name}</span>
+          </div>
+          <div class="opicks-grid">
+            <div class="opick-row">
+              <span class="opick-pos pos1">1º</span>
+              <span class="opick-flag">${flagOf(o.first)}</span>
+              <span class="opick-team">${o.first}</span>
+            </div>
+            <div class="opick-row">
+              <span class="opick-pos pos2">2º</span>
+              <span class="opick-flag">${flagOf(o.second)}</span>
+              <span class="opick-team">${o.second}</span>
+            </div>
+          </div>
+        </div>`;
+      });
+    } else {
+      othH += `<div style="font-size:12px;color:var(--muted);padding:8px 0;text-align:center">Ninguém mais apostou neste grupo ainda.</div>`;
+    }
+    othH += '</div>';
+  } else if (!lk) {
+    othH = `<div class="oth-sec">
+      <div class="lnotice">🔒 Os palpites dos outros participantes ficam visíveis após você apostar neste grupo.</div>
+    </div>`;
+  }
+
+  // Monta o modal completo
+  document.getElementById('mbox').innerHTML = `
+    <div class="mhdr">
+      <h3>Grupo ${g.id}</h3>
+      <button class="bcls" onclick="cm()">✕</button>
+    </div>
+    ${lk ? `<div class="lnotice" style="margin-bottom:11px">🔒 Apostas encerradas.</div>`
+         : `<p class="phint">1º clique = 1º lugar · 2º clique = 2º lugar · 3º = cancelar</p>
+            <div class="pleg">
+              <span><span class="ldot" style="background:var(--green)"></span>1º lugar</span>
+              <span><span class="ldot" style="background:var(--gold)"></span>2º lugar</span>
+            </div>`}
+    <div class="tlist" id="mtms">${renderTms(g, lk)}</div>
+    ${!lk ? `<button class="bsv" onclick="savGP()">Salvar aposta</button>
+             <div class="mhint">Editável até o início da Copa.</div>` : ''}
+    ${othH}`;
+}
+
+function renderTms(g, rdonly=false) {
+  return g.teams.map(t => {
+    const iF = TP.first===t.n, iS = TP.second===t.n;
+    const ns = t.n.replace(/\\/g,'\\\\').replace(/'/g,"\\'");
+    return `<div class="topt ${iF?'p1':iS?'p2':''} ${rdonly?'rdonly':''}" ${rdonly?'':` onclick="tog('${ns}')"`}>
+      <span class="tf">${t.f}</span>
+      <span class="tn">${t.n}</span>
+      ${iF?'<span class="pb b1">1º</span>':iS?'<span class="pb b2">2º</span>':''}
+    </div>`;
+  }).join('');
+}
+
+function tog(n) {
+  if      (TP.first===n)  TP.first=null;
+  else if (TP.second===n) TP.second=null;
+  else if (!TP.first)     TP.first=n;
+  else if (!TP.second)    TP.second=n;
+  else                    TP.second=n;
+  const g = GROUPS.find(x => x.id===MGID);
+  document.getElementById('mtms').innerHTML = renderTms(g, false);
+}
+
+async function savGP() {
+  if (!TP.first||!TP.second) { alert('Selecione 1º e 2º colocado.'); return; }
+  UP[MGID] = { first: TP.first, second: TP.second };
+  await dbSet('picks/'+CU+'/'+MGID, UP[MGID]);
+  cm();
+  rApostas();
+}
+
+function cm()  { document.getElementById('mov').classList.remove('open'); }
+function cmout(e) { if(e.target===document.getElementById('mov')) cm(); }
+
+// ══════════════════════════════════════════════════════
+//  MATA-MATA
+// ══════════════════════════════════════════════════════
+async function rMata() {
+  const el = document.getElementById('t-mata');
+  el.innerHTML = loading();
+  const phase   = await dbGet('config/phase') || 'grupos';
+  const matchesRaw = await dbGet('ko_matches') || {};
+  if (phase==='grupos') { el.innerHTML='<div class="empty-s">A fase de mata-mata ainda não foi liberada.</div>'; return; }
+  const mArr = Object.entries(matchesRaw).map(([k,v])=>({id:k,...v}));
+  if (!mArr.length) { el.innerHTML='<div class="empty-s">Nenhum jogo cadastrado ainda.</div>'; return; }
+  const results = await dbGet('ko_results') || {};
+  const now     = new Date();
+  let h = `
+    <div class="rules">
+      <h4>Pontuação — mata-mata</h4>
+      <div class="rrul"><span class="ptsbdg" style="background:var(--gold)">2 pts</span> Acertou o classificado para a próxima fase</div>
+    </div>
+    <div class="stitle">Mata-mata</div><div class="kolist">`;
+  mArr.forEach(m => {
+    const dl  = new Date(m.deadline);
+    const lk  = now >= dl;
+    const my  = UKO[m.id];
+    const res = results[m.id];
+    let   st  = '';
+    if (res) {
+      if      (my===res) st=`<div class="kost kok">✓ Acertou! +2 pts</div>`;
+      else if (my)       st=`<div class="kost kow">✗ Errou (passou: ${res})</div>`;
+      else               st=`<div class="kost kop">Resultado: ${res}</div>`;
+    }
+    const t1s = m.team1.replace(/'/g,"\\'");
+    const t2s = m.team2.replace(/'/g,"\\'");
+    h += `<div class="kocard${my?' picked':''}${lk?' lkd':' clickable'}">
+      <div class="kolbl">${m.round}${m.label?' · '+m.label:''}</div>
+      <div class="koteams">
+        <div class="kotem${my===m.team1?' sel':''}${lk?'':' clickable'}"${lk?'':` onclick="pkKO('${m.id}','${t1s}')"`}>
+          ${m.flag1||'🏳'} ${m.team1}${my===m.team1?'<span class="pb b1" style="margin-left:auto">✓</span>':''}
+        </div>
+        <div class="kovs">×</div>
+        <div class="kotem${my===m.team2?' sel':''}${lk?'':' clickable'}"${lk?'':` onclick="pkKO('${m.id}','${t2s}')"`}>
+          ${m.flag2||'🏳'} ${m.team2}${my===m.team2?'<span class="pb b1" style="margin-left:auto">✓</span>':''}
+        </div>
+      </div>
+      <div class="kodl">${lk?'🔒 Encerrado':'⏰ Prazo: '+dl.toLocaleString('pt-BR',{day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'})}</div>
+      ${st}
+    </div>`;
+  });
+  h += '</div>';
+  el.innerHTML = h;
+}
+
+async function pkKO(id, team) {
+  UKO[id] = team;
+  await dbSet('ko_picks/'+CU+'/'+id, team);
+  rMata();
+}
+
+// ══════════════════════════════════════════════════════
+//  RANKING — tempo real
+// ══════════════════════════════════════════════════════
+function rRanking() {
+  const el = document.getElementById('t-ranking');
+  el.innerHTML = loading();
+  if (unsubRanking) { unsubRanking(); unsubRanking=null; }
+  unsubRanking = dbOn('picks', async allPicks => {
+    allPicks = allPicks || {};
+    const [users, gres, kores, koPicksAll] = await Promise.all([
+      dbGet('users'),
+      dbGet('group_results'),
+      dbGet('ko_results'),
+      dbGet('ko_picks')
+    ]);
+    const gresD   = gres      || {};
+    const koresD  = kores     || {};
+    const usersD  = users     || {};
+    const koPicksD= koPicksAll|| {};
+    const entries = [];
+    Object.keys(allPicks).forEach(un => {
+      const picks = allPicks[un] || {};
+      const info  = usersD[un];
+      if (!info) return;
+      let pts=0, gp=0, kp=0;
+      Object.keys(gresD).forEach(gid => {
+        const r=gresD[gid]; const p=picks[gid]; if(!p) return;
+        if(p.first===r.first){pts+=2;gp+=2}  else if(p.first===r.second){pts+=1;gp+=1}
+        if(p.second===r.second){pts+=2;gp+=2} else if(p.second===r.first){pts+=1;gp+=1}
+      });
+      const kop = koPicksD[un] || {};
+      Object.keys(koresD).forEach(mid => { if(kop[mid]===koresD[mid]){pts+=2;kp+=2;} });
+      entries.push({ username:un, name:info.name, pts, gp, kp, gd:Object.keys(picks).length });
+    });
+    entries.sort((a,b) => b.pts-a.pts || b.gd-a.gd);
+    if (!entries.length) { el.innerHTML='<div class="empty-s">Nenhum participante ainda.</div>'; return; }
+    const hasr = Object.keys(gresD).length>0 || Object.keys(koresD).length>0;
+    let h = `${!hasr?'<div class="ibox">ℹ️ A pontuação aparecerá após os resultados serem registrados pelo admin.</div>':''}<div class="rcard">`;
+    entries.forEach((e,i) => {
+      const rc = i===0?'gn':i===1?'sn':i===2?'bn':'';
+      h += `<div class="rrow">
+        <span class="rnum ${rc}">${i+1}</span>
+        <div class="rav" style="background:${avc(e.username)}">${e.name.charAt(0).toUpperCase()}</div>
+        <div style="flex:1;min-width:0">
+          <div class="rname">${e.name}${e.username===CU?' <span style="font-size:10px;color:var(--green)">(você)</span>':''}</div>
+          <div style="display:flex;gap:6px;margin-top:2px;flex-wrap:wrap">
+            <span style="font-size:10px;color:var(--muted)">${e.gd}/12 grupos</span>
+            ${e.gp?`<span class="spip">${e.gp}pt grupos</span>`:''}
+            ${e.kp?`<span class="spip gd">${e.kp}pt MM</span>`:''}
+          </div>
+        </div>
+        <span class="rscore">${e.pts}</span>
+      </div>`;
+    });
+    h += '</div>';
+    el.innerHTML = h;
+  });
+}
+
+// ══════════════════════════════════════════════════════
+//  ADMIN
+// ══════════════════════════════════════════════════════
+async function rAdmin() {
+  if (CU !== ADMIN_USER) { document.getElementById('t-admin').innerHTML='<div class="empty-s">Acesso restrito.</div>'; return; }
+  const el = document.getElementById('t-admin');
+  el.innerHTML = loading();
+  const [gres, phase, matchesRaw, kores] = await Promise.all([
+    dbGet('group_results'),
+    dbGet('config/phase'),
+    dbGet('ko_matches'),
+    dbGet('ko_results')
+  ]);
+  const gresD   = gres       || {};
+  const phaseD  = phase      || 'grupos';
+  const koresD  = kores      || {};
+  const matches = matchesRaw ? Object.entries(matchesRaw).map(([k,v])=>({id:k,...v})) : [];
+
+  let h = `
+  <div class="adm-sec">
+    <div class="adm-ttl">Fase atual <span class="phase-badge ${phaseD==='grupos'?'ph-g':'ph-m'}">${phaseD==='grupos'?'Fase de Grupos':'Mata-mata'}</span></div>
+    <div class="adm-hint">Alterne quando a classificação dos grupos estiver definida.</div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap">
+      <button class="badm" onclick="setPhase('grupos')">← Grupos</button>
+      <button class="badm" onclick="setPhase('matamata')">Mata-mata →</button>
+    </div>
+  </div>
+
+  <div class="adm-sec">
+    <div class="adm-ttl">🔄 Sincronizar resultados automaticamente</div>
+    <div class="adm-hint">Busca resultados do repositório openfootball/worldcup.json. Use após cada rodada encerrada.</div>
+    <button class="sync-btn" id="syncbtn" onclick="syncResults()">⬇ Sincronizar resultados agora</button>
+    <div class="sync-log" id="synclog">Aguardando sincronização...</div>
+  </div>
+
+  <div class="adm-sec">
+    <div class="adm-ttl">Resultados — Fase de Grupos</div>
+    <div class="adm-hint">Preenchidos automaticamente pela sincronização ou editados manualmente.</div>`;
+  GROUPS.forEach(g => {
+    const r = gresD[g.id] || {};
+    h += `<div class="gres-row">
+      <span class="gid-lbl">${g.id}</span>
+      <span style="font-size:11px;color:var(--muted)">1º:</span>
+      <select id="r1_${g.id}" onchange="saveRes('${g.id}')">
+        <option value="">—</option>
+        ${g.teams.map(t=>`<option value="${t.n}"${r.first===t.n?' selected':''}>${t.n}</option>`).join('')}
+      </select>
+      <span style="font-size:11px;color:var(--muted)">2º:</span>
+      <select id="r2_${g.id}" onchange="saveRes('${g.id}')">
+        <option value="">—</option>
+        ${g.teams.map(t=>`<option value="${t.n}"${r.second===t.n?' selected':''}>${t.n}</option>`).join('')}
+      </select>
+    </div>`;
+  });
+  h += `</div>
+  <div class="adm-sec">
+    <div class="adm-ttl">Jogos do Mata-mata</div>
+    <div class="adm-hint">Prazo = 30 min antes do jogo, calculado automaticamente.</div>
+    <div id="koadm">`;
+  matches.forEach((m,i) => {
+    const r = koresD[m.id];
+    h += `<div class="gres-row">
+      <span style="font-size:11px;font-weight:600;color:var(--green);width:18px">#${i+1}</span>
+      <span style="font-size:11px;flex:1">${m.flag1||'🏳'} ${m.team1} × ${m.flag2||'🏳'} ${m.team2}</span>
+      <select onchange="saveKR('${m.id}',this.value)">
+        <option value="">Resultado—</option>
+        <option value="${m.team1}"${r===m.team1?' selected':''}>${m.team1}</option>
+        <option value="${m.team2}"${r===m.team2?' selected':''}>${m.team2}</option>
+      </select>
+      <button class="bdng" onclick="rmKO('${m.id}')">✕</button>
+    </div>`;
+  });
+  h += `</div>
+    <div style="margin-top:11px;display:grid;grid-template-columns:1fr 1fr;gap:8px">
+      <div class="fg"><label>Fase</label><input id="kor" placeholder="Ex: Oitavas de Final" style="width:100%"/></div>
+      <div class="fg"><label>Rótulo (opcional)</label><input id="kol" placeholder="Ex: Jogo 1" style="width:100%"/></div>
+      <div class="fg"><label>Time 1</label><input id="kt1" placeholder="Nome do time" style="width:100%"/></div>
+      <div class="fg"><label>Bandeira 1</label><input id="kf1" placeholder="🏳" style="width:100%"/></div>
+      <div class="fg"><label>Time 2</label><input id="kt2" placeholder="Nome do time" style="width:100%"/></div>
+      <div class="fg"><label>Bandeira 2</label><input id="kf2" placeholder="🏳" style="width:100%"/></div>
+      <div class="fg" style="grid-column:1/-1">
+        <label>Data e hora do jogo (horário de Brasília)</label>
+        <input id="kdt" type="datetime-local" style="width:100%"/>
+      </div>
+    </div>
+    <button class="badm" onclick="addKO()">+ Adicionar jogo</button>
+  </div>`;
+  el.innerHTML = h;
+}
+
+// ── Admin helpers ──
+async function syncResults() {
+  const btn = document.getElementById('syncbtn');
+  const log = document.getElementById('synclog');
+  btn.disabled=true; btn.textContent='⏳ Buscando...';
+  log.className='sync-log'; log.textContent='Conectando com openfootball...';
+  try {
+    const res  = await fetch(DATA_URL);
+    if (!res.ok) throw new Error('HTTP '+res.status);
+    const data = await res.json();
+    const gres = await dbGet('group_results') || {};
+    const groupMap = {};
+    data.matches.forEach(m => {
+      if (!m.group||!m.score) return;
+      const gl = m.group.replace('Group ','');
+      if (!groupMap[gl]) groupMap[gl]={teams:{}};
+      const s1=m.score.ft[0], s2=m.score.ft[1];
+      if (s1===undefined) return;
+      const pts1=s1>s2?3:s1===s2?1:0, pts2=s2>s1?3:s1===s2?1:0;
+      [m.team1, m.team2].forEach((tn,ti) => {
+        const s=ti===0?s1:s2; const pts=ti===0?pts1:pts2; const gd=ti===0?s1-s2:s2-s1;
+        if (!groupMap[gl].teams[tn]) groupMap[gl].teams[tn]={pts:0,gd:0,gf:0,pl:0};
+        groupMap[gl].teams[tn].pts+=pts; groupMap[gl].teams[tn].gd+=gd;
+        groupMap[gl].teams[tn].gf+=s;   groupMap[gl].teams[tn].pl+=1;
+      });
+    });
+    const NM = {
+      'Brazil':'Brasil','Morocco':'Marrocos','Germany':'Alemanha','France':'França',
+      'Spain':'Espanha','Netherlands':'Holanda','Belgium':'Bélgica',
+      'Argentina':'Argentina','Uruguay':'Uruguai','Mexico':'México','USA':'EUA',
+      'Korea Republic':'Coreia do Sul','South Korea':'Coreia do Sul',
+      'Japan':'Japão','Australia':'Austrália','Saudi Arabia':'Arábia Saudita',
+      'Senegal':'Senegal','Colombia':'Colômbia','Ecuador':'Equador',
+      'Croatia':'Croácia','Iran':'Irã','Egypt':'Egito',
+      'South Africa':'África do Sul','Canada':'Canadá','Switzerland':'Suíça',
+      'New Zealand':'Nova Zelândia','Paraguay':'Paraguai','Tunisia':'Tunísia',
+      'Cape Verde':'Cabo Verde','Ivory Coast':'Costa do Marfim','Haiti':'Haiti',
+      'Scotland':'Escócia','Qatar':'Qatar','Bosnia and Herzegovina':'Bósnia',
+      'Czechia':'República Tcheca','Czech Republic':'República Tcheca',
+      'Turkey':'Turquia','Türkiye':'Turquia','Curaçao':'Curaçao',
+      'Sweden':'Suécia','England':'Inglaterra','Ghana':'Gana','Panama':'Panamá',
+      'Iraq':'Iraque','Norway':'Noruega','Algeria':'Argélia','Austria':'Áustria',
+      'Jordan':'Jordânia','DR Congo':'RD Congo','Uzbekistan':'Uzbequistão',
+      'Portugal':'Portugal','Serbia':'Sérvia','Nigeria':'Nigéria','Chile':'Chile'
+    };
+    const mn = en => NM[en]||en;
+    let updated=0;
+    for (const gl of Object.keys(groupMap)) {
+      const grp = GROUPS.find(g=>g.id===gl); if(!grp) continue;
+      const tms = groupMap[gl].teams;
+      const sorted = Object.entries(tms).sort((a,b)=>b[1].pts-a[1].pts||b[1].gd-a[1].gd||b[1].gf-a[1].gf);
+      const allGames    = grp.teams.length*(grp.teams.length-1)/2;
+      const playedGames = Object.values(tms).reduce((s,t)=>s+t.pl,0)/2;
+      if (playedGames<allGames) continue;
+      const first=mn(sorted[0]?.[0]), second=mn(sorted[1]?.[0]);
+      if (first&&second) {
+        const prev=gres[gl];
+        if (!prev||prev.first!==first||prev.second!==second) { gres[gl]={first,second}; updated++; }
+      }
+    }
+    await dbSet('group_results', gres);
+    log.className='sync-log ok';
+    log.textContent=`✓ Sincronizado!\n${updated} grupo(s) atualizado(s).\n${Object.keys(gres).length} grupo(s) com resultado.\n\nFonte: openfootball/worldcup.json`;
+    rAdmin();
+  } catch(e) {
+    log.className='sync-log err';
+    log.textContent='✗ Erro: '+e.message;
+  }
+  btn.disabled=false; btn.textContent='⬇ Sincronizar resultados agora';
+}
+async function saveRes(gid) {
+  const v1=document.getElementById('r1_'+gid).value;
+  const v2=document.getElementById('r2_'+gid).value;
+  if (!v1||!v2) return;
+  await dbSet('group_results/'+gid, {first:v1, second:v2});
+}
+async function saveKR(mid, winner) {
+  if (!winner) return;
+  await dbSet('ko_results/'+mid, winner);
+}
+async function setPhase(p) {
+  await dbSet('config/phase', p);
+  document.getElementById('tbmm').style.display = p!=='grupos' ? '' : 'none';
+  alert('Fase alterada para: '+p);
+  rAdmin();
+}
+async function addKO() {
+  const round=document.getElementById('kor').value.trim();
+  const label=document.getElementById('kol').value.trim();
+  const t1=document.getElementById('kt1').value.trim();
+  const f1=document.getElementById('kf1').value.trim()||'🏳';
+  const t2=document.getElementById('kt2').value.trim();
+  const f2=document.getElementById('kf2').value.trim()||'🏳';
+  const dt=document.getElementById('kdt').value;
+  if (!t1||!t2||!dt||!round) { alert('Preencha fase, times e data.'); return; }
+  const gd=new Date(dt);
+  const dl=new Date(gd.getTime()-30*60*1000);
+  await dbPush('ko_matches',{round,label,team1:t1,flag1:f1,team2:t2,flag2:f2,gameDate:gd.toISOString(),deadline:dl.toISOString()});
+  rAdmin();
+}
+async function rmKO(id) {
+  if (!confirm('Remover este jogo?')) return;
+  await dbRemove('ko_matches/'+id);
+  rAdmin();
+}
+
+// ══════════════════════════════════════════════════════
+//  INICIALIZAÇÃO
+// ══════════════════════════════════════════════════════
+['lu','lp'].forEach(id =>
+  document.getElementById(id).addEventListener('keydown', e => { if(e.key==='Enter') dolog(); }));
+['rn','ru','rp','rp2'].forEach(id =>
+  document.getElementById(id).addEventListener('keydown', e => { if(e.key==='Enter') doreg(); }));
+
+document.getElementById('pauth').style.display = 'flex';
+</script>
+</body>
+</html>
